@@ -2,7 +2,7 @@ let express = require('express')
 let app = express()
 
 app.get("/hola", function(req, res){
-    res.send("Hola mundo")
+    res.send("Los triple J y Yasuri")
 })
 
 app.post("/users", (req, res) => {
