@@ -1,26 +1,28 @@
-let express = require('express')
-let app = express()
+const express = require('express')
+const morgan = require('morgan')
+const path = require('path')
+const app = express()
 
-app.get("/hola", function(req, res){
-    res.send("Los triple J y Yasuri, los iluminatti")
+//Settings
+app.set('port', process.env.PORT || 3000)
+
+//Middelware
+app.use(morgan('dev'))
+app.use(express.urlencoded({extended: false}))
+app.use(express.json())
+
+//Global variables
+app.use((req, res, next) => {
+    next()
 })
 
-app.post("/users", (req, res) => {
-    if(req.body.caso == "insertar"){
-        if(req.body.identification != ""){
+//public
+app.use(express.static(path.join(__dirname, 'public')))
 
-        } else {
-            res.send({
-                status: "done",
-                message: "Usuario registrado",
-                data: {
+//routes
+app.use(require(`./routes/index`))
 
-                }
-            })
-        }
-    }
-})
-
-app.listen(3000, () => {
-    console.log("Server on port 3000")
+//Starting server
+app.listen(app.get('port'), () => {
+    console.log("Server on port", app.get('port'))
 })
