@@ -11,11 +11,18 @@ class Actividad {
 
     async save() {
         let conn = bd.getConnection()
-
-        let result = await conn.query(
-            'INSERT INTO tbl_actividad (num_id_entidad,str_desc,num_id_usu) VALUES (?,?,?)', 
-            [this.id_entidad, this.desc, this.id_usu]
-        );
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query(
+                'INSERT INTO tbl_actividad (num_id_entidad,str_desc,num_id_usu) VALUES (?,?,?)', 
+                [_this.id_entidad, _this.desc, _this.id_usu], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
 
         conn.end()
 
@@ -24,12 +31,18 @@ class Actividad {
 
     async update() {
         let conn = bd.getConnection()
-
-        let result = await conn.query(
-            'UPDATE tbl_actividad SET num_id_entidad = ?, str_desc = ?, num_id_usu = ? WHERE num_id_actividad = ?', 
-            [this.id_entidad, this.desc, this.id_usu, this.id]
-        );
-
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query(
+                'UPDATE tbl_actividad SET num_id_entidad = ?, str_desc = ?, num_id_usu = ? WHERE num_id_actividad = ?', 
+                [_this.id_entidad, _this.desc, _this.id_usu, _this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
         
         return result
@@ -37,7 +50,16 @@ class Actividad {
 
     async delete() {
         let conn = bd.getConnection()
-        let result = await conn.query('DELETE FROM tbl_actividad WHERE num_id_actividad = ?', [this.id]);
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query('DELETE FROM tbl_actividad WHERE num_id_actividad = ?', [_this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
         
         return result
@@ -45,7 +67,15 @@ class Actividad {
 
     async getAllActividades() {
         let conn = bd.getConnection();
-        let result = await conn.query('SELECT * from tbl_actividad')
+        let result = new Promise(function(resolve, reject){
+            conn.query('SELECT * from tbl_actividad', [], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
 
         return result
@@ -53,7 +83,16 @@ class Actividad {
 
     async getActividadById() {
         let conn = bd.getConnection();
-        let result = await conn.query('SELECT * from tbl_actividad where num_id_actividad = ?', [this.id])
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query('SELECT * from tbl_actividad where num_id_actividad = ?', [_this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
 
         return result

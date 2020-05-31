@@ -12,11 +12,18 @@ class Segimiento {
 
     async save() {
         let conn = bd.getConnection()
-
-        let result = await conn.query(
-            'INSERT INTO tbl_seguimiento (num_id_actividad,str_desc,num_porcentaje,num_id_usu) VALUES (?,?,?)', 
-            [this.nombre, this.num_id_sector, this.id_usu]
-        );
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query(
+                'INSERT INTO tbl_seguimiento (num_id_actividad,str_desc,num_porcentaje,num_id_usu) VALUES (?,?,?)', 
+                [_this.nombre, _this.num_id_sector, _this.id_usu], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
 
         conn.end()
 
@@ -25,11 +32,18 @@ class Segimiento {
 
     async update() {
         let conn = bd.getConnection()
-
-        let result = await conn.query(
-            'UPDATE tbl_seguimiento SET num_id_actividad = ?, str_desc = ?, num_porcentaje = ?, num_id_usu =? WHERE num_id_seguimiento = ?', 
-            [this.nombre, this.num_id_sector, this.id_usu, this.id]
-        );
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query(
+                'UPDATE tbl_seguimiento SET num_id_actividad = ?, str_desc = ?, num_porcentaje = ?, num_id_usu =? WHERE num_id_seguimiento = ?', 
+                [_this.nombre, _this.num_id_sector, _this.id_usu, _this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
 
         conn.end()
         
@@ -38,7 +52,16 @@ class Segimiento {
 
     async delete() {
         let conn = bd.getConnection()
-        let result = await conn.query('DELETE FROM tbl_seguimiento WHERE num_id_seguimiento = ?', [this.id]);
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query('DELETE FROM tbl_seguimiento WHERE num_id_seguimiento = ?', [_this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
         
         return result
@@ -46,7 +69,15 @@ class Segimiento {
 
     async getAllSegimientos() {
         let conn = bd.getConnection();
-        let result = await conn.query('SELECT * from tbl_seguimiento')
+        let result = new Promise(function(resolve, reject){
+            conn.query('SELECT * from tbl_seguimiento', [], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
 
         return result
@@ -54,7 +85,16 @@ class Segimiento {
 
     async getSegimientoById() {
         let conn = bd.getConnection();
-        let result = await conn.query('SELECT * from tbl_seguimiento where num_id_seguimiento = ?', [this.id])
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query('SELECT * from tbl_seguimiento where num_id_seguimiento = ?', [_this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
 
         return result

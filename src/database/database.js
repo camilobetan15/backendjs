@@ -9,9 +9,7 @@ class Database {
             password : '',
             port: 3306
         });
-    }
 
-    getConnection() {
         this.connection.connect(function(err) {
             if (err) {
                 console.error('Error de conexion: ' + err.stack);
@@ -20,7 +18,9 @@ class Database {
 
             console.log('Database connected');
         });
+    }
 
+    getConnection() {
         return this.connection
     }
 }

@@ -2,6 +2,7 @@ let obj = require('../models/sector')
 
 class ControlSector {
     async Init(params) {
+        let response = {}
         switch(params.case){
             case "getAllSectores":
                 try {
@@ -45,16 +46,28 @@ class ControlSector {
                     }
                 }
             case "create":
-                return {
-
+                response = this.validateParams(params)
+                if(response.status == "done"){
+                    this.assingData(params)
+                    return await obj.save()
+                } else {
+                    return response
                 }
             case "update":
-                return {
-
+                response = this.validateParams(params)
+                if(response.status == "done"){
+                    this.assingData(params)
+                    return await obj.update()
+                } else {
+                    return response
                 }
             case "delete":
-                return {
-
+                response = this.validateParams(params)
+                if(response.status == "done"){
+                    this.assingData(params)
+                    return await obj.delete()
+                } else {
+                    return response
                 }
             default: 
                 return {
@@ -62,6 +75,53 @@ class ControlSector {
                     message: "Acción desconocida, no se encontró la acción solicitada",
                     data: null
                 }
+        }
+    }
+
+    assingData(params){
+        obj.id = params.id
+        obj.nombre = params.nombre
+        obj.desc = params.desc
+        obj.id_usu = params.id_usu
+    }
+
+    validateParams(params) {
+        if(params.case == "create"){
+            if(params.nombre != "" && params.desc != "" && params.id_usu > 0) {
+                return {
+                    status: "done"
+                }
+            } else {
+                return {
+                    status: "fail",
+                    message: "Datos vacios, faltan datos",
+                    data: null
+                }
+            }
+        } else if (params.case == "update") {
+            if(params.id > 0 && params.nombre != "" && params.desc != "" && params.id_usu > 0) {
+                return {
+                    status: "done"
+                }
+            } else {
+                return {
+                    status: "fail",
+                    message: "Datos vacios, faltan datos",
+                    data: null
+                }
+            }
+        } else if (params.case == "delete") {
+            if(params.id > 0) {
+                return {
+                    status: "done"
+                }
+            } else {
+                return {
+                    status: "fail",
+                    message: "Datos vacios, faltan datos",
+                    data: null
+                }
+            }
         }
     }
 }

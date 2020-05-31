@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/', (req, res) => {
-    res.send('Hola Mundo')
-    
+router.get('/', async (req, res) => {
+    let control = require('../controllers/usuario')
+    res.send(await control.Init({case: "getUserById", id: 1}))
 })
 
 router.post('/actividad', async (req, res) => {

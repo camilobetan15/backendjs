@@ -11,11 +11,18 @@ class Sector {
 
     async save() {
         let conn = bd.getConnection()
-
-        let result = await conn.query(
-            'INSERT INTO tbl_sector (str_nombre,str_desc,num_id_usu) VALUES (?,?,?)', 
-            [this.nombre, this.desc, this.id_usu]
-        );
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query(
+                'INSERT INTO tbl_sector (str_nombre,str_desc,num_id_usu) VALUES (?,?,?)', 
+                [_this.nombre, _this.desc, _this.id_usu], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
 
         conn.end()
 
@@ -24,11 +31,18 @@ class Sector {
 
     async update() {
         let conn = bd.getConnection()
-
-        let result = await conn.query(
-            'UPDATE tbl_sector SET str_nombre = ?, str_desc = ?, num_id_usu = ? WHERE num_id_sector = ?', 
-            [this.nombre, this.desc, this.id_usu, this.id]
-        );
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query(
+                'UPDATE tbl_sector SET str_nombre = ?, str_desc = ?, num_id_usu = ? WHERE num_id_sector = ?', 
+                [_this.nombre, _this.desc, _this.id_usu, _this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
 
         conn.end()
         
@@ -37,7 +51,17 @@ class Sector {
 
     async delete() {
         let conn = bd.getConnection()
-        let result = await conn.query('DELETE FROM tbl_sector WHERE num_id_sector = ?', [this.id]);
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query('DELETE FROM tbl_sector WHERE num_id_sector = ?', [_this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+        
         conn.end()
         
         return result
@@ -45,7 +69,15 @@ class Sector {
 
     async getAllSectores() {
         let conn = bd.getConnection();
-        let result = await conn.query('SELECT * from tbl_sector')
+        let result = new Promise(function(resolve, reject){
+            conn.query('SELECT * from tbl_sector', [], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
 
         return result
@@ -53,7 +85,16 @@ class Sector {
 
     async getSectorById() {
         let conn = bd.getConnection();
-        let result = await conn.query('SELECT * from tbl_sector where num_id_sector = ?', [this.id])
+        let _this = this
+        let result = new Promise(function(resolve, reject){
+            conn.query('SELECT * from tbl_sector where num_id_sector = ?', [_this.id], function(error, result){
+                if(error){
+                    reject()
+                } else {
+                    resolve(result)
+                }
+            })
+        })
         conn.end()
 
         return result
